@@ -1,7 +1,7 @@
 # Assignment 1 – D3 Lighthouse Scene
 
 **Live Demo (GitHub Pages):**  
-http://sctrautz.github.io/01-ghd3/index.html
+http://sctrautz.github.io/a1-ghd3/index.html
 
 ## Description
 For this assignment, I created a nighttime lighthouse scene using D3.js. The visualization shows a lighthouse on a beach with ocean waves, clouds, birds, and an animated lighthouse beam. My goal was to practice generating basic graphical primitives while keeping the code simple and fun.
