@@ -1,13 +1,174 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>D3 Lighthouse Scene</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+        body {
+            margin: 0;
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
 <div id="container"></div>
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script type="module">
 
 <script>
-  console.log(d3); // test if d3 is loaded
-  // Add an SVG
-  // Add Rectangles
-  // Add Circles
-  // Add Lines
-  // Add Polygons
+    console.log(d3); // Make sure d3 is loaded
+
+    const width = 800;
+    const height = 500;
+
+    const svg = d3.select("#container")
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .style("background", "#0B1320"); // night sky
+
+    // Clouds
+
+    function drawCloud(cx, cy, scale) {
+        const cloud = svg.append("g").attr("opacity", 0.25);
+
+        cloud.append("circle").attr("cx", cx).attr("cy", cy).attr("r", 18 * scale).attr("fill", "#DDE3EA");
+        cloud.append("circle").attr("cx", cx + 18 * scale).attr("cy", cy - 10 * scale).attr("r", 22 * scale).attr("fill", "#DDE3EA");
+        cloud.append("circle").attr("cx", cx + 40 * scale).attr("cy", cy).attr("r", 18 * scale).attr("fill", "#DDE3EA");
+        cloud.append("circle").attr("cx", cx + 22 * scale).attr("cy", cy + 8 * scale).attr("r", 20 * scale).attr("fill", "#DDE3EA");
+    }
+
+    drawCloud(180, 90, 1.1);
+    drawCloud(520, 70, 0.9);
+    drawCloud(620, 120, 1.0);
+
+    // Birds
+    function drawBird(x, y, size) {
+        svg.append("line")
+            .attr("x1", x)
+            .attr("y1", y)
+            .attr("x2", x - size)
+            .attr("y2", y + size * 0.4)
+            .attr("stroke", "rgba(255,255,255,0.6)")
+            .attr("stroke-width", 3)
+            .attr("stroke-linecap", "round");
+
+        svg.append("line")
+            .attr("x1", x)
+            .attr("y1", y)
+            .attr("x2", x + size)
+            .attr("y2", y + size * 0.4)
+            .attr("stroke", "rgba(255,255,255,0.6)")
+            .attr("stroke-width", 3)
+            .attr("stroke-linecap", "round");
+    }
+
+    drawBird(680, 90, 18);
+    drawBird(735, 75, 14);
+    drawBird(780, 105, 16);
+
+    // Ocean
+
+    svg.append("rect")
+        .attr("x", 0)
+        .attr("y", 300)
+        .attr("width", width)
+        .attr("height", 120)
+        .attr("fill", "#0A4C6A");
+
+    for (let i = 0; i < 6; i++) {
+        svg.append("line")
+            .attr("x1", 0)
+            .attr("y1", 320 + i * 15)
+            .attr("x2", width)
+            .attr("y2", 320 + i * 15)
+            .attr("stroke", "rgba(255,255,255,0.25)")
+            .attr("stroke-width", 2);
+    }
+
+    // Sand
+
+    svg.append("rect")
+        .attr("x", 0)
+        .attr("y", 420)
+        .attr("width", width)
+        .attr("height", 80)
+        .attr("fill", "#CDB46B");
+
+    // Moon
+
+    svg.append("circle")
+        .attr("cx", 100)
+        .attr("cy", 100)
+        .attr("r", 32)
+        .attr("fill", "#E5E7EB");
+
+    // Lighthouse
+
+    svg.append("rect")
+        .attr("x", 360)
+        .attr("y", 180)
+        .attr("width", 80)
+        .attr("height", 240)
+        .attr("fill", "#F5F5F5")
+        .attr("stroke", "black");
+
+    svg.append("rect").attr("x", 360).attr("y", 220).attr("width", 80).attr("height", 25).attr("fill", "#E63946");
+    svg.append("rect").attr("x", 360).attr("y", 280).attr("width", 80).attr("height", 25).attr("fill", "#E63946");
+    svg.append("rect").attr("x", 360).attr("y", 340).attr("width", 80).attr("height", 25).attr("fill", "#E63946");
+
+    svg.append("circle").attr("cx", 400).attr("cy", 260).attr("r", 8).attr("fill", "#FFD166");
+    svg.append("circle").attr("cx", 400).attr("cy", 320).attr("r", 8).attr("fill", "#FFD166");
+
+    svg.append("rect")
+        .attr("x", 385)
+        .attr("y", 370)
+        .attr("width", 30)
+        .attr("height", 50)
+        .attr("fill", "#8D5524");
+
+    svg.append("polygon")
+        .attr("points", "350,180 400,140 450,180")
+        .attr("fill", "#333");
+
+    svg.append("circle")
+        .attr("cx", 400)
+        .attr("cy", 175)
+        .attr("r", 10)
+        .attr("fill", "#FFF3B0");
+
+    // Animated Light Beam
+
+    const beam = svg.append("polygon")
+        .attr("points", "400,175 400,155 800,40 800,160")
+        .attr("fill", "rgba(255, 250, 210, 0.45)");
+
+    function pulseBeam() {
+        beam
+            .attr("opacity", 0.15)
+            .transition()
+            .duration(900)
+            .attr("opacity", 0.65)
+            .transition()
+            .duration(900)
+            .attr("opacity", 0.15)
+            .on("end", pulseBeam);
+    }
+    pulseBeam();
+
+    // Rock
+
+    svg.append("polygon")
+        .attr("points", "600,460 650,440 700,460 680,490 620,490")
+        .attr("fill", "#6B6B6B");
+
 </script>
+</body>
+</html>
+
+
+
